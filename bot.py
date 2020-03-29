@@ -108,10 +108,10 @@ class ModmailBot(commands.Bot):
 
         for cog in os.listdir("./cogs"):
             logger.debug("Loading %s.", cog)
-            if cog.endswith(".py") and not cog.startswith("_"):
-                try:
-                    self.load_extension(f"cogs.{cog.replace(".py", "")}")
-                    logger.debug("Successfully loaded %s.", cog)
+            for cog in os.listdir("./cogs"):
+                if cog.endswith("py") and not cog.startswith("_"):
+                   self.load_extension(f"cogs.{cog.replace('.py', '')}")
+                   print(f"{cog} loaded successfuly")
                 except Exception:
                     logger.exception("Failed to load %s.", cog)
         logger.line("debug")
