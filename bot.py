@@ -54,7 +54,6 @@ class ModmailBot(commands.Bot):
         self._api = None
         self.metadata_loop = None
         self.formatter = SafeFormatter()
-        self.loaded_cogs = ["cogs.modmail", "cogs.plugins", "cogs.utility"]
         self._connected = asyncio.Event()
         self.start_time = datetime.utcnow()
 
@@ -107,13 +106,14 @@ class ModmailBot(commands.Bot):
         logger.info("Authors: mario, omer")
         logger.line()
 
-        for cog in self.loaded_cogs:
+        for cog in os.listdir("./cogs"):
             logger.debug("Loading %s.", cog)
-            try:
-                self.load_extension(cog)
-                logger.debug("Successfully loaded %s.", cog)
-            except Exception:
-                logger.exception("Failed to load %s.", cog)
+            if cog.endswith(".py") and not cog.startswith("_"):
+                try:
+                    self.load_extension(f"cogs.{cog.replace(".py", "")}")
+                    logger.debug("Successfully loaded %s.", cog)
+                except Exception:
+                    logger.exception("Failed to load %s.", cog)
         logger.line("debug")
 
     def _configure_logging(self):
