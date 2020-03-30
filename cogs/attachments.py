@@ -7,11 +7,9 @@ class attachments(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         channel = self.bot.get_channel(690584660123582494)
-        if not message.channel.category_id:
-            return
-        if not message.channel.category_id == 553232325832343574:
-            return
-
+        if not message.channel.type == discord.ChannelType.private:
+            if not message.channel.category_id == 553232325832343574:
+                return
         if message.attachments:
             for i in message.attachments:
                 if message.content is not None:
